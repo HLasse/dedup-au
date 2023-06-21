@@ -14,6 +14,9 @@ from deduplicate.snippet_handling import (
 def main(file_paths: Sequence[Path]):
     raw_dir = Path(__file__).parent / "raw"
     deduped_dir = Path(__file__).parent / "deduped"
+
+    for dir in (raw_dir, deduped_dir):
+        dir.mkdir(exist_ok=True, parents=True)
     
     for path in file_paths:
         deduped_df, webpages_df = dedup_file(path)
@@ -33,4 +36,6 @@ def dedup_file(path):
     return deduped_df, webpages_df
 
 if __name__ == "__main__":
-    main()
+    data_path = Path(__file__).parent.parent / "795173"
+
+    main(file_paths=list(data_path.glob("*.txt")))

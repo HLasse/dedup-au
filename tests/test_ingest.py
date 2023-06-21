@@ -12,17 +12,6 @@ from deduplicate.snippet_handling import (
 )
 
 
-@dataclass
-class Webpage:
-    url: str
-    text: str
-
-@dataclass
-class Snippet:
-    url: str
-    text: str
-    index: int
-
 
 @pytest.fixture(scope='module')
 def test_data() -> list[str]:

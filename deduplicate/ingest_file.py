@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tests.test_ingest import Webpage
+from deduplicate.dataclasses import Webpage
 
 
 def ingest_file(path: Path) -> list[Webpage]:
