@@ -12,16 +12,22 @@ from deduplicate.snippet_handling import (
 
 
 def main(file_paths: Sequence[Path]):
-    raw_dir = Path(__file__).parent / "raw"
-    deduped_dir = Path(__file__).parent / "deduped"
+    raw_dir = file_paths[0].parent / "raw"
+    deduped_dir = file_paths[0].parent / "deduped"
 
     for dir in (raw_dir, deduped_dir):
         dir.mkdir(exist_ok=True, parents=True)
     
     for path in file_paths:
-        deduped_df, webpages_df = dedup_file(path)
-        deduped_df.write_ndjson(deduped_dir / f"{path.stem}_deduped.ndjson")
-        webpages_df.write_ndjson(raw_dir / f"{path.stem}_raw.ndjson")
+        deduped_save_path = deduped_dir / f"{path.stem}_deduped.ndjson"
+
+        if not deduped_save_path.exists():
+            deduped_df, webpages_df = dedup_file(path)
+            webpages_df.write_ndjson(raw_dir / f"{path.stem}_raw.ndjson")
+            deduped_df.write_ndjson(deduped_save_path)
+        else:
+            print(f"Skipping {deduped_save_path}, already exists")
+        
         
 
         
